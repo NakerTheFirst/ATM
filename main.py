@@ -3,7 +3,7 @@ from engine import Engine
 
 def main():
     atm = Engine()
-    atm.run()
+    atm._run()
 
 
 if __name__ == '__main__':

@@ -11,14 +11,14 @@ class Engine:
         self.__id = None
         self.__pin = None
 
-    def verify(self):
+    def __verify(self):
         for elem in self.db._tab:
             if elem[0] == self.__id and elem[1] == self.__pin:
                 return True
         return False
 
-    def run(self):
-        self.screen.print_menu()
-        self.__id, self.__pin = self.keyboard.take_input()
-        ver_result = self.verify()
-        self.screen.print_ver_result(ver_result)
+    def _run(self):
+        self.screen._print_menu()
+        self.__id, self.__pin = self.keyboard._take_input()
+        ver_result = self.__verify()
+        self.screen._print_ver_result(ver_result)

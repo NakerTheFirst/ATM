@@ -3,7 +3,7 @@ class Keyboard:
         pass
 
     @staticmethod
-    def take_input():
+    def _take_input():
         user_input = input()
         card_id, card_pin = user_input.split()
         card_id = int(card_id)
