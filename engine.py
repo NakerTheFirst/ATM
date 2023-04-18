@@ -1,6 +1,6 @@
 from database import Database
 from keyboard import Keyboard
-from ui import UserInterface
+from ui import UserInterface, ConsoleInterface
 
 
 class Engine:
@@ -12,9 +12,9 @@ class Engine:
         self.__pin = None
 
     def __verify(self):
-        for elem in self.db._tab:
-            if elem[0] == self.__id and elem[1] == self.__pin:
-                return True
+        pin_pairs = self.db.get_dict()
+        if pin_pairs.get(self.__id) == self.__pin:
+            return True
         return False
 
     def _choose_ui(self):
@@ -24,6 +24,9 @@ class Engine:
     def run(self):
         self._choose_ui()
         self.ui.view_menu()
-        self.__id = self.keyboard._take_card_id()
-        self.__pin = self.keyboard._take_card_pin()
-        self.ui.print_ver_result(self.__verify())
+        if isinstance(self.ui, ConsoleInterface):
+            self.keyboard.take_card_id()
+            self.keyboard.take_card_pin()
+            self.__id = self.keyboard.get_card_id()
+            self.__pin = self.keyboard.get_card_pin()
+            self.ui.print_ver_result(self.__verify())
