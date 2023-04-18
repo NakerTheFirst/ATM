@@ -1,13 +1,13 @@
 from database import Database
-from screen import Screen
 from keyboard import Keyboard
+from ui import UserInterface
 
 
 class Engine:
     def __init__(self):
         self.db = Database()
-        self.screen = Screen()
         self.keyboard = Keyboard()
+        self.ui = None
         self.__id = None
         self.__pin = None
 
@@ -17,8 +17,13 @@ class Engine:
                 return True
         return False
 
-    def _run(self):
-        self.screen._print_menu()
-        self.__id, self.__pin = self.keyboard._take_input()
-        ver_result = self.__verify()
-        self.screen._print_ver_result(ver_result)
+    def _choose_ui(self):
+        ui_type = self.keyboard.take_ui_type()
+        self.ui = UserInterface.create_ui(ui_type)
+
+    def run(self):
+        self._choose_ui()
+        self.ui.view_menu()
+        self.__id = self.keyboard._take_card_id()
+        self.__pin = self.keyboard._take_card_pin()
+        self.ui.print_ver_result(self.__verify())

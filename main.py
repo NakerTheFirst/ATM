@@ -2,8 +2,8 @@ from engine import Engine
 
 
 def main():
-    atm = Engine()
-    atm._run()
+    engine = Engine()
+    engine.run()
 
 
 if __name__ == '__main__':

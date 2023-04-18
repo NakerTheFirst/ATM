@@ -1,11 +1,25 @@
 class Keyboard:
-    def __init__(self):
-        pass
+    @staticmethod
+    def take_ui_type():
+        ui_type = input("Enter type of interface: console/window\n")
+        while not Keyboard.is_ui_correct(ui_type):
+            print(f"Input error: input {ui_type} is invalid")
+            ui_type = input("Enter type of interface: console/window\n")
+        return ui_type
 
     @staticmethod
-    def _take_input():
-        user_input = input()
-        card_id, card_pin = user_input.split()
-        card_id = int(card_id)
-        card_pin = int(card_pin)
-        return card_id, card_pin
+    def is_ui_correct(ui_type):
+        if ui_type == "console" or ui_type == "window":
+            return True
+        else:
+            return False
+
+    @staticmethod
+    def _take_card_id():
+        card_id = int(input("Enter card id: "))
+        return card_id
+
+    @staticmethod
+    def _take_card_pin():
+        card_pin = int(input("Enter card pin: "))
+        return card_pin
