@@ -23,7 +23,6 @@ class Engine:
 
     def run(self):
         self._choose_ui()
-        # self.ui = UserInterface.create_ui("window")
 
         if isinstance(self.ui, ConsoleInterface):
             self.ui.view_menu(self.keyboard)

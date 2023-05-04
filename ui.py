@@ -69,9 +69,6 @@ class WindowInterface(UserInterface):
         pin_box.bind("<FocusIn>", lambda event: pin_box.delete('0', 'end'))
         pin_box.pack()
 
-        # TODO: Fix the non-input verification bug
-        # TODO: Write the documentation
-
         root.mainloop()
 
     def print_ver_result(self, is_correct):
@@ -80,6 +77,8 @@ class WindowInterface(UserInterface):
         root.title("Verification Result")
         root.geometry("300x150")
         root.configure(bg="#39393A")
+        icon = tk.PhotoImage(file="icon.ico")
+        root.iconphoto(False, icon)
 
         if is_correct:
             message = "Verification successful. \n*ATM withdraws 50 PLN*"
