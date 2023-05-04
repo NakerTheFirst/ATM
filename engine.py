@@ -8,11 +8,12 @@ class Engine:
         self.db = Database()
         self.keyboard = Keyboard()
         self.ui = None
-        self.__id = None
-        self.__pin = None
+        self.__id = 0
+        self.__pin = 1
 
-    def __verify(self):
+    def __is_verified_correctly(self):
         pin_pairs = self.db.get_dict()
+        print(pin_pairs)
         if pin_pairs.get(self.__id) == self.__pin:
             return True
         return False
@@ -31,8 +32,10 @@ class Engine:
             self.keyboard.take_card_pin()
             self.__id = self.keyboard.get_card_id()
             self.__pin = self.keyboard.get_card_pin()
-            self.ui.print_ver_result(self.__verify())
+            self.ui.print_ver_result(self.__is_verified_correctly())
 
         if isinstance(self.ui, WindowInterface):
             self.ui.view_menu(self.keyboard)
-            pass
+            self.__id = self.keyboard.get_card_id()
+            self.__pin = self.keyboard.get_card_pin()
+            self.ui.print_ver_result(self.__is_verified_correctly())

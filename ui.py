@@ -52,12 +52,9 @@ class WindowInterface(UserInterface):
         pin_var = tk.StringVar()
 
         # Buttons
-        quit_button = tk.Button(frame, text="Quit", command=root.destroy, bg="#FF8552", fg="#000",
-                                border=0, padx=60, pady=10, activeforeground="#000", activebackground="#FF8552")
-        quit_button.pack(side="bottom", pady=10)
-
-        submit_button = tk.Button(frame, text="Submit", command=lambda: self.submit(keyboard, id_var, pin_var), bg="#FF8552",
-                                  fg="#000", border=0, padx=60, pady=10, activeforeground="#000", activebackground="#FF8552")
+        submit_button = tk.Button(frame, text="Submit", command=lambda: self.submit(keyboard, id_var, pin_var, root),
+                                  bg="#FF8552", fg="#000", border=0, padx=60, pady=10, activeforeground="#000",
+                                  activebackground="#FF8552")
         submit_button.pack(side="bottom", pady=10)
 
         # ID input box
@@ -72,15 +69,37 @@ class WindowInterface(UserInterface):
         pin_box.bind("<FocusIn>", lambda event: pin_box.delete('0', 'end'))
         pin_box.pack()
 
+        # TODO: Fix the non-input verification bug
+        # TODO: Write the documentation
+
         root.mainloop()
 
     def print_ver_result(self, is_correct):
-        pass
+        """Prints success/failure popup depending on is_correct state"""
+        root = tk.Tk()
+        root.title("Verification Result")
+        root.geometry("300x150")
+        root.configure(bg="#39393A")
+
+        if is_correct:
+            message = "Verification successful. \n*ATM withdraws 50 PLN*"
+        else:
+            message = "Verification unsuccessful. \n*ATM shuts down*"
+
+        message_label = tk.Label(master=root, text=message, bg="#39393A", fg="#FFF")
+        message_label.pack(pady=10)
+
+        ok_button = tk.Button(root, text="Quit", command=root.destroy, bg="#FF8552", fg="#000",
+                              border=0, padx=60, pady=10, activeforeground="#000", activebackground="#FF8552")
+        ok_button.pack(pady=10)
+
+        root.mainloop()
 
     @staticmethod
-    def submit(keyboard, id, pin):
+    def submit(keyboard, id, pin, root):
         """Pass id and pin, save as Keyboard private attributes"""
         id_input = id.get()
         pin_input = pin.get()
         keyboard.set_card_id(id_input)
         keyboard.set_card_pin(pin_input)
+        root.destroy()

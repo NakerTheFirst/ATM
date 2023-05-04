@@ -25,10 +25,18 @@ class Keyboard:
         self.__card_pin = int(input("Enter card pin: "))
 
     def set_card_pin(self, pin):
-        self.__card_pin = pin
+        try:
+            self.__card_pin = int(pin)
+        except ValueError:
+            print("User did not provide pin input")
+            self.__card_pin = 1
 
     def set_card_id(self, id):
-        self.__card_id = id
+        try:
+            self.__card_id = int(id)
+        except ValueError:
+            print("User did not provide id input")
+            self.__card_id = 0
 
     def get_card_id(self):
         return self.__card_id
