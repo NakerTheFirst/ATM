@@ -24,6 +24,12 @@ class Keyboard:
     def take_card_pin(self):
         self.__card_pin = int(input("Enter card pin: "))
 
+    def set_card_pin(self, pin):
+        self.__card_pin = pin
+
+    def set_card_id(self, id):
+        self.__card_id = id
+
     def get_card_id(self):
         return self.__card_id
 

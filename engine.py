@@ -1,6 +1,6 @@
 from database import Database
 from keyboard import Keyboard
-from ui import UserInterface, ConsoleInterface
+from ui import UserInterface, ConsoleInterface, WindowInterface
 
 
 class Engine:
@@ -23,10 +23,16 @@ class Engine:
 
     def run(self):
         self._choose_ui()
-        self.ui.view_menu()
+        # self.ui = UserInterface.create_ui("window")
+
         if isinstance(self.ui, ConsoleInterface):
+            self.ui.view_menu(self.keyboard)
             self.keyboard.take_card_id()
             self.keyboard.take_card_pin()
             self.__id = self.keyboard.get_card_id()
             self.__pin = self.keyboard.get_card_pin()
             self.ui.print_ver_result(self.__verify())
+
+        if isinstance(self.ui, WindowInterface):
+            self.ui.view_menu(self.keyboard)
+            pass

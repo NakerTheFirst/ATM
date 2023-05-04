@@ -9,7 +9,7 @@ class UserInterface:
         elif ui_type == "window":
             return WindowInterface()
 
-    def view_menu(self):
+    def view_menu(self, keyboard):
         pass
 
     def print_ver_result(self, is_correct):
@@ -17,7 +17,7 @@ class UserInterface:
 
 
 class ConsoleInterface(UserInterface):
-    def view_menu(self):
+    def view_menu(self, keyboard):
         prompt = "Hello! To withdraw money, please enter card id and pin number, separated by space."
         instr = "The card id is 2 digits long. The pin number is 4 digits long."
         print(prompt + "\n" + instr)
@@ -31,16 +31,56 @@ class ConsoleInterface(UserInterface):
 
 
 class WindowInterface(UserInterface):
-    def view_menu(self):
+    def view_menu(self, keyboard):
         # Root config
         root = tk.Tk()
         root.title("ATM")
         root.geometry("640x720")
-        root.configure(bg="#302c2c")
+        root.configure(bg="#39393A")
         icon = tk.PhotoImage(file="icon.ico")
         root.iconphoto(False, icon)
+
+        frame = tk.Frame(master=root, bg="#39393A", width=340, height=480)
+        frame.pack(pady=120, padx=200, expand=True, fill="both")
+
+        # Image
+        bank_image = tk.PhotoImage(master=frame, file="bank_image.png", width=240, height=160)
+        label = tk.Label(master=frame, bg="#39393A", image=bank_image, borderwidth=0, highlightthickness=0)
+        label.pack()
+
+        id_var = tk.StringVar()
+        pin_var = tk.StringVar()
+
+        # Buttons
+        quit_button = tk.Button(frame, text="Quit", command=root.destroy, bg="#FF8552", fg="#000",
+                                border=0, padx=60, pady=10, activeforeground="#000", activebackground="#FF8552")
+        quit_button.pack(side="bottom", pady=10)
+
+        submit_button = tk.Button(frame, text="Submit", command=lambda: self.submit(keyboard, id_var, pin_var), bg="#FF8552",
+                                  fg="#000", border=0, padx=60, pady=10, activeforeground="#000", activebackground="#FF8552")
+        submit_button.pack(side="bottom", pady=10)
+
+        # ID input box
+        id_box = tk.Entry(master=frame, width=30, font=("x", 10), justify="center", bg="#E6E6E6", textvariable=id_var)
+        id_var.set("Enter card ID")
+        id_box.bind("<FocusIn>", lambda event: id_box.delete('0', 'end'))
+        id_box.pack(pady=(80, 20))
+
+        # PIN input box
+        pin_box = tk.Entry(master=frame, width=30, font=("x", 10), justify="center", bg="#E6E6E6", textvariable=pin_var)
+        pin_var.set("Enter card PIN")
+        pin_box.bind("<FocusIn>", lambda event: pin_box.delete('0', 'end'))
+        pin_box.pack()
 
         root.mainloop()
 
     def print_ver_result(self, is_correct):
         pass
+
+    @staticmethod
+    def submit(keyboard, id, pin):
+        """Pass id and pin, save as Keyboard private attributes"""
+        id_input = id.get()
+        pin_input = pin.get()
+        keyboard.set_card_id(id_input)
+        keyboard.set_card_pin(pin_input)
