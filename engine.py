@@ -8,12 +8,11 @@ class Engine:
         self.db = Database()
         self.keyboard = Keyboard()
         self.ui = None
-        self.__id = 0
-        self.__pin = 1
+        self.__id = None
+        self.__pin = None
 
     def __is_verified_correctly(self):
         pin_pairs = self.db.get_dict()
-        print(pin_pairs)
         if pin_pairs.get(self.__id) == self.__pin:
             return True
         return False

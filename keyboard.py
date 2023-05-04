@@ -1,7 +1,7 @@
 class Keyboard:
     def __init__(self):
-        self.__card_id = None
-        self.__card_pin = None
+        self.__card_id = 0
+        self.__card_pin = 1
 
     @staticmethod
     def take_ui_type():
@@ -29,14 +29,12 @@ class Keyboard:
             self.__card_pin = int(pin)
         except ValueError:
             print("User did not provide pin input")
-            self.__card_pin = 1
 
     def set_card_id(self, id):
         try:
             self.__card_id = int(id)
         except ValueError:
             print("User did not provide id input")
-            self.__card_id = 0
 
     def get_card_id(self):
         return self.__card_id
