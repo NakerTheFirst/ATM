@@ -4,7 +4,6 @@ import tkinter as tk
 class UserInterface:
     @staticmethod
     def create_ui(ui_type):
-        """Returns either ConsoleInterface or WindowInterface object"""
         if ui_type == "console":
             return ConsoleInterface()
         elif ui_type == "window":
@@ -19,13 +18,11 @@ class UserInterface:
 
 class ConsoleInterface(UserInterface):
     def view_menu(self, keyboard):
-        """Prints the console menu"""
-        prompt = "Hello! To withdraw money, please enter card id and then pin number, separated with enter."
+        prompt = "Hello! To withdraw money, please enter card id and pin number, separated by space."
         instr = "The card id is 2 digits long. The pin number is 4 digits long."
         print(prompt + "\n" + instr)
 
     def print_ver_result(self, is_correct):
-        """Prints the result of user input - database data verification"""
         if is_correct:
             message = "Verification successful. \n*ATM withdraws 50 PLN*"
         else:
@@ -35,7 +32,6 @@ class ConsoleInterface(UserInterface):
 
 class WindowInterface(UserInterface):
     def view_menu(self, keyboard):
-        """Renders GUI"""
         # Root config
         root = tk.Tk()
         root.title("ATM")
@@ -76,7 +72,7 @@ class WindowInterface(UserInterface):
         root.mainloop()
 
     def print_ver_result(self, is_correct):
-        """Renders popup window with the result of user input - database data verification"""
+        """Prints success/failure popup depending on is_correct state"""
         root = tk.Tk()
         root.title("Verification Result")
         root.geometry("300x150")
@@ -100,7 +96,7 @@ class WindowInterface(UserInterface):
 
     @staticmethod
     def submit(keyboard, id, pin, root):
-        """Saves user defined id and pin as Keyboard private attributes and turns off the GUI"""
+        """Pass id and pin, save as Keyboard private attributes"""
         id_input = id.get()
         pin_input = pin.get()
         keyboard.set_card_id(id_input)
